@@ -1,0 +1,23 @@
+<!-- custom_user/templates/custom_user/profile.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>User Profile</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture">
+        </div>
+        <div class="col-md-8">
+            <p><strong>Email:</strong> {{ profile.user.email }}</p>
+            <p><strong>First Name:</strong> {{ profile.user.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ profile.user.last_name }}</p>
+            <p><strong>Phone Number:</strong> {{ profile.phone }}</p>
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

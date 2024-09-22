@@ -1,0 +1,13 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}Application Status Update{% endblock %}
+
+{% block header %}Status Update{% endblock %}
+
+{% block content %}
+<h2>Dear {{ application.user.first_name }},</h2>
+<p>The status of your application for the <strong>{{ application.program.name }}</strong> program has been updated to <strong>{{ application.status }}</strong>.</p>
+<p>You can view your application details by clicking the button below:</p>
+<a href="{{ status_url }}" class="button">View Application</a>
+<p>Best regards,<br>Your Team</p>
+{% endblock %}

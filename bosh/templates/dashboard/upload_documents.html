@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Additional Documents{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Upload Additional Documents for {{ application.program.name }}</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <a href="{% url 'application_detail' application.id %}" class="btn btn-secondary mt-3">Back to Application Details</a>
+</div>
+{% endblock %}

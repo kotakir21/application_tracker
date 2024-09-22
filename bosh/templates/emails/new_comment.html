@@ -1,0 +1,13 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}New Comment on Your Application{% endblock %}
+
+{% block header %}New Comment{% endblock %}
+
+{% block content %}
+<h2>Dear {{ comment.application.user.first_name }},</h2>
+<p>A new comment has been added to your application for the <strong>{{ comment.application.program.name }}</strong> program.</p>
+<p>You can view and reply to the comment by clicking the button below:</p>
+<a href="{{ comment_url }}" class="button">View Comment</a>
+<p>Best regards,<br>Your Team</p>
+{% endblock %}

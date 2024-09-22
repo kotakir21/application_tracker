@@ -1,0 +1,4 @@
+<p>Dear {{ application.user.first_name }},</p>
+<p>Your application for the {{ application.program.name }} program has been updated.</p>
+<p>You can view your updated application <a href="{% url 'application_detail' application.id %}">here</a>.</p>
+<p>Best regards,<br>Your Team</p>

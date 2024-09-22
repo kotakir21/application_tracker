@@ -1,0 +1,13 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}New Document Uploaded{% endblock %}
+
+{% block header %}Document Uploaded{% endblock %}
+
+{% block content %}
+<h2>Dear {{ application.user.first_name }},</h2>
+<p>A new document has been uploaded for your application to the <strong>{{ application.program.name }}</strong> program.</p>
+<p>You can view your application details by clicking the button below:</p>
+<a href="{{ document_url }}" class="button">View Application</a>
+<p>Best regards,<br>Your Team</p>
+{% endblock %}

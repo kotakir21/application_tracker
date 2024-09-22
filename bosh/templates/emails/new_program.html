@@ -1,0 +1,14 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}New Program Available{% endblock %}
+
+{% block header %}New Program Alert{% endblock %}
+
+{% block content %}
+<h2>Hello User,</h2>
+<p>A new program has been added: <strong>{{ program.name }}</strong></p>
+<p>{{ program.description }}</p>
+<p>You can apply for this program by clicking the button below:</p>
+<a href="{{ program_url }}" class="button">Apply Now</a>
+<p>Best regards,<br>Your Team</p>
+{% endblock %}

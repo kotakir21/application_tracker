@@ -1,0 +1,27 @@
+<!-- dashboard/templates/dashboard/update_application_status.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Update Application Status{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Update Status for {{ application.full_name }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="status">Status:</label>
+            {{ form.status }}
+        </div>
+        <div class="form-group">
+            <label for="additional_documents_required">Require Additional Documents:</label>
+            {{ form.additional_documents_required }}
+        </div>
+        <div class="form-group">
+            <label for="comments">Comments:</label>
+            {{ comment_form.comments }}
+        </div>
+        <button type="submit" class="btn btn-primary">Update Status</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "emails/base_email.html" %}
+
+{% block title %}New Application Submitted{% endblock %}
+
+{% block header %}New Application Alert{% endblock %}
+
+{% block content %}
+<h2>Hello Officer,</h2>
+<p>A new application has been submitted for the <strong>{{ application.program.name }}</strong> program.</p>
+<p>You can view and manage the application by clicking the button below:</p>
+<a href="{{ officer_url }}" class="button">View Application</a>
+<p>Best regards,<br>Your Team</p>
+{% endblock %}

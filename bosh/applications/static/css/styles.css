@@ -1,0 +1,40 @@
+/* bosh/static/css/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.comments .card {
+    border: 1px solid #e1e4e8;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.comments .card-body {
+    padding: 10px;
+}
+
+.comments .card .btn-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.comments .card .btn-link:hover {
+    text-decoration: underline;
+}
+
+.reply-form {
+    border-left: 2px solid #007bff;
+    padding-left: 15px;
+    margin-top: 15px;
+}

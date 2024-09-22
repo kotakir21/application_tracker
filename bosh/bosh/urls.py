@@ -17,6 +17,10 @@ urlpatterns = [
     # Search
     path("search/", include(crx_search_urls)),
     path('accounts/', include('allauth.urls')),
+    path('applications/', include('applications.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('users/', include('custom_user.urls')), 
+    path('programs/', include('programs.urls')),
     # For anything not caught by a more specific rule above, hand over to
     # the page serving mechanism. This should be the last pattern in
     # the list:

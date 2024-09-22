@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load filters %}
+
+{% block title %}Edit Program{% endblock %}
+
+{% block extra_head %}
+<style>
+    .form-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-container h2 {
+        color: #d32f2f;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .form-control:focus {
+        border-color: #d32f2f;
+        outline: none;
+        box-shadow: 0 0 5px rgba(211, 47, 47, 0.5);
+    }
+
+    .btn-primary {
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="form-container">
+        <h2>Edit Program</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_name" class="form-label">{{ form.name.label }}</label>
+                {{ form.name|add_class:"form-control" }}
+            </div>
+            <div class="mb-3">
+                <label for="id_description" class="form-label">{{ form.description.label }}</label>
+                {{ form.description|add_class:"form-control" }}
+            </div>
+            <div class="mb-3">
+                <label for="id_start_date" class="form-label">{{ form.start_date.label }}</label>
+                {{ form.start_date|add_class:"form-control" }}
+            </div>
+            <div class="mb-3">
+                <label for="id_end_date" class="form-label">{{ form.end_date.label }}</label>
+                {{ form.end_date|add_class:"form-control" }}
+            </div>
+            <div class="mb-3">
+                <label for="id_available_spots" class="form-label">{{ form.available_spots.label }}</label>
+                {{ form.available_spots|add_class:"form-control" }}
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

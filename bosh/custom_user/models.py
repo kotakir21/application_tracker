@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import User
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -40,3 +41,15 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+# custom_user/models.py
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', default='default.jpg', blank=True)
+    # Add more fields if needed, such as address, bio, etc.
+
+    def __str__(self):
+        return f"{self.user.username} Profile"
+

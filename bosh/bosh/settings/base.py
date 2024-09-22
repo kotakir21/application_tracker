@@ -24,6 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Application definition
 
 INSTALLED_APPS = [
+    'programs',
+    'dashboard',
+    'applications',
     #allauth
     'allauth',
     'allauth.account',
@@ -231,5 +234,11 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# settings.py
+
+ACCOUNT_FORMS = {
+    'signup': 'custom_user.forms.CustomSignupForm',
+}
 
 

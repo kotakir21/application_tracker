@@ -1,0 +1,5 @@
+<p>Dear User,</p>
+<p>A new program has been added: <strong>{{ program.name }}</strong></p>
+<p>{{ program.description }}</p>
+<p>You can apply for this program <a href="{% url 'apply_for_program' program.id %}">here</a>.</p>
+<p>Best regards,<br>Your Team</p>

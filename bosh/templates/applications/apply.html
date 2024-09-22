@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Apply for {{ program.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Apply for {{ program.name }}</h2>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% else %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Application</button>
+        </form>
+        {% if errors %}
+            <div class="alert alert-danger mt-3">
+                <ul>
+                    {% for field, error_list in errors.items %}
+                        <li>{{ field }}: {{ error_list|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

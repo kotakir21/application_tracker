@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Application Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Application Progress and Personal Information -->
+        <div class="col-md-6">
+            <!-- Application Progress -->
+            <div class="card mb-4 shadow-sm hover-card">
+                <div class="card-body p-4">
+                    <h4 class="text-danger font-weight-bold">Application Progress</h4>
+                    <div class="progress mb-3" style="height: 25px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ application.progress_percentage }}%;" aria-valuenow="{{ application.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ application.progress_percentage }}%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Information -->
+            <div class="card mb-4 shadow-sm hover-card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Personal Information</h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Full Name:</strong></div>
+                        <div class="col-sm-8">{{ application.full_name }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Email:</strong></div>
+                        <div class="col-sm-8">{{ application.email }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Phone:</strong></div>
+                        <div class="col-sm-8">{{ application.phone }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm hover-card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Uploaded Documents</h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Resume:</strong></div>
+                        <div class="col-sm-8"><a href="{{ application.resume.url }}" class="text-danger">Download Resume</a></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Passport:</strong></div>
+                        <div class="col-sm-8"><a href="{{ application.passport.url }}" class="text-danger">Download Passport</a></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4"><strong>Cover Letter:</strong></div>
+                        <div class="col-sm-8"><a href="{{ application.cover_letter.url }}" class="text-danger">Download Cover Letter</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline of Events -->
+    <div class="card mb-4 shadow-sm hover-card">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Timeline of Events</h4>
+        </div>
+        <div class="card-body p-4">
+            <ul class="list-unstyled">
+                {% for event in timeline_events %}
+                <li class="media mb-4">
+                    <div class="activity-icon avatar-sm me-3">
+                        <span class="avatar-title rounded-circle {% if event.event_type == 'Status Updated' %}bg-soft-success{% else %}bg-soft-primary{% endif %} text-{% if event.event_type == 'Status Updated' %}success{% else %}primary{% endif %}">
+                            <i class="fa {% if event.event_type == 'Status Updated' %}fa-check{% elif event.event_type == 'Document Uploaded' %}fa-upload{% elif event.event_type == 'Comment Added' %}fa-comment{% endif %}"></i>
+                        </span>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="font-size-15 mb-1">{{ event.event_type }}</h5>
+                        <p class="text-muted font-size-13">{{ event.description }}</p>
+                        <small class="text-muted">{{ event.timestamp|date:"M d, Y H:i" }}</small>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Additional Documents Alert -->
+    {% if application.current_status.additional_documents_required %}
+    <div class="alert alert-warning shadow-sm">
+        <h5>Additional Documents Needed</h5>
+        <p>{{ application.current_status.additional_documents_description }}</p>
+        <a href="{% url 'upload_documents' application.id %}" class="btn btn-danger btn-sm">Upload Additional Documents</a>
+    </div>
+    {% endif %}
+
+    <!-- Comments Section -->
+    <div class="card mb-4 shadow-sm hover-card">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Comments</h4>
+        </div>
+        <div class="card-body p-4">
+            {% for comment in comments %}
+            <div class="media mb-4">
+                <img src="{% if comment.user.profile.profile_picture %}{{ comment.user.profile.profile_picture.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" class="mr-3 rounded-circle shadow-sm" style="width: 50px; height: 50px;" alt="{{ comment.user.first_name|default:comment.user.email }}">
+                <div class="media-body">
+                    <h5 class="mt-0">{{ comment.user.first_name|default:comment.user.email }}</h5>
+                    <small class="text-muted">{{ comment.created_at|date:"M d, Y" }}</small>
+                    <p>{{ comment.text }}</p>
+                    {% if comment.attachment %}
+                    <a href="{{ comment.attachment.url }}" class="text-danger">Download Attachment</a>
+                    {% endif %}
+                    <a href="#" class="text-danger reply-link" data-comment-id="{{ comment.id }}">Reply</a>
+
+                    <!-- Replies -->
+                    <div class="replies ml-4 mt-3">
+                        {% for reply in comment.replies.all %}
+                        <div class="media mb-3">
+                            <img src="{% if reply.user.profile.profile_picture %}{{ reply.user.profile.profile_picture.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" class="mr-3 rounded-circle shadow-sm" style="width: 40px; height: 40px;" alt="{{ reply.user.first_name|default:reply.user.email }}">
+                            <div class="media-body">
+                                <h6 class="mt-0">{{ reply.user.first_name|default:reply.user.email }} <small class="text-muted">{{ reply.created_at|date:"M d, Y" }}</small></h6>
+                                <p>{{ reply.text }}</p>
+                                {% if reply.attachment %}
+                                <a href="{{ reply.attachment.url }}" class="text-danger">Download Attachment</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Reply form (hidden by default) -->
+                    <div class="reply-form mt-2" id="reply-form-{{ comment.id }}" style="display: none;">
+                        <form method="post" enctype="multipart/form-data" action="{% url 'application_detail' application.id %}">
+                            {% csrf_token %}
+                            <textarea name="text" class="form-control mb-2" rows="2" placeholder="Write a reply..."></textarea>
+                            <input type="file" name="attachment" class="form-control-file mb-2">
+                            <button type="submit" class="btn btn-danger btn-sm">Post Reply</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Add a Comment -->
+    <div class="card mb-4 shadow-sm hover-card">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Add a Comment</h4>
+        </div>
+        <div class="card-body p-4">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <textarea name="text" class="form-control mb-3" rows="3" placeholder="Write your comment..."></textarea>
+                <input type="file" name="attachment" class="form-control-file mb-3">
+                <button type="submit" class="btn btn-danger">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="{% url 'user_dashboard' %}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.reply-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const commentId = e.target.getAttribute('data-comment-id');
+                const replyForm = document.getElementById('reply-form-' + commentId);
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+
+<style>
+    .bg-soft-primary {
+        background-color: rgba(82, 92, 229, 0.25) !important;
+    }
+    .bg-soft-success {
+        background-color: rgba(35, 197, 143, 0.25) !important;
+    }
+    .reply-link {
+        cursor: pointer;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease-in-out;
+    }
+</style>
+{% endblock %}
